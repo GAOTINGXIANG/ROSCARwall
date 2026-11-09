@@ -4,7 +4,7 @@
  */
 window.WALL_CONFIG = {
   // 你的 GitHub 用户名（或组织名）
-  owner: 'your-github-name',
+  owner: 'gaotingxiang',
   // 存放留言 Issue 的仓库名
   repo: 'ROSCARwall',
   // 可选：只显示带该标签的 Issue（例如 'wall'）。留空表示显示仓库全部 Issue
