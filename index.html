@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2f5cff">
+  <title>ROSCAR 实验室 · 留言墙</title>
+  <meta name="description" content="河南理工大学 ROSCAR 实验室留言墙：留言以 GitHub Issue 的形式保存与展示。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%232f5cff'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle' fill='white' font-family='sans-serif'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="./">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="8" width="16" height="12" rx="4"></rect>
+            <circle cx="9" cy="14" r="1.4" fill="currentColor" stroke="none"></circle>
+            <circle cx="15" cy="14" r="1.4" fill="currentColor" stroke="none"></circle>
+            <path d="M12 8V5"></path>
+            <circle cx="12" cy="3.6" r="1.3"></circle>
+          </svg>
+        </span>
+        <span class="brand__text"><strong>ROSCAR</strong><small>留言墙</small></span>
+      </a>
+
+      <div class="topbar__right">
+        <span class="status" id="status"><i class="dot"></i><span id="status-text">初始化…</span></span>
+        <a class="ghost-btn" id="repo-link" href="#" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow">河南理工大学 · ROSCAR 实验室</p>
+      <h1>留下一句话，<span class="grad">留在墙上</span></h1>
+      <p class="lead">每条留言都会以 GitHub Issue 的形式公开保存——不需要数据库，也不需要服务器。</p>
+    </section>
+
+    <section class="composer card" aria-labelledby="composer-title">
+      <h2 id="composer-title" class="sr-only">发布留言</h2>
+      <form id="composer" autocomplete="off">
+        <label class="sr-only" for="message">留言内容</label>
+        <textarea id="message" rows="3" maxlength="256" placeholder="写下你的留言……"
+          aria-describedby="composer-hint"></textarea>
+        <div class="composer__bar">
+          <span class="counter" id="counter">0 / 256</span>
+          <button class="primary" type="submit">
+            发布留言
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="hint" id="composer-hint">
+          点击后会在新窗口打开 GitHub，确认提交 “Submit new issue” 即完成发布（需登录 GitHub 账号）。
+        </p>
+      </form>
+    </section>
+
+    <p class="banner" id="banner" role="status" hidden></p>
+
+    <section class="wall" aria-labelledby="wall-title">
+      <div class="wall__head">
+        <h2 id="wall-title">最新留言 <span class="badge" id="message-count">0</span></h2>
+        <div class="wall__actions">
+          <button class="ghost-btn" id="refresh" type="button">刷新</button>
+          <a class="ghost-btn" id="issues-link" href="#" target="_blank" rel="noopener">查看全部 ↗</a>
+        </div>
+      </div>
+
+      <div class="skeletons" id="skeletons" aria-hidden="true">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+      </div>
+
+      <div class="grid" id="wall" aria-live="polite"></div>
+
+      <div class="empty" id="empty" hidden>
+        <svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M42 22c0 8.3-8.1 15-18 15-2.4 0-4.7-.4-6.8-1.1L9 39l1.6-5.7C7.4 30.4 6 26.4 6 22 6 13.7 14.1 7 24 7s18 6.7 18 15Z"></path>
+        </svg>
+        <p>还没有留言，成为第一个留言的人吧。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>ROSCAR 实验室 · 留言数据来自 GitHub Issues</span>
+      <span class="footer__sep">·</span>
+      <a id="foot-link" href="#" target="_blank" rel="noopener">查看留言源码</a>
+    </div>
+  </footer>
+
+  <template id="card">
+    <article class="card message">
+      <header class="message__head">
+        <span class="avatar">
+          <span class="avatar-ph" aria-hidden="true"></span>
+          <img alt="" width="40" height="40" loading="lazy" decoding="async">
+        </span>
+        <span class="message__meta">
+          <span class="name"></span>
+          <time class="time"></time>
+        </span>
+        <a class="permalink link" href="#" target="_blank" rel="noopener" aria-label="在 GitHub 查看该留言">
+          <span class="num"></span>
+        </a>
+      </header>
+      <p class="text"></p>
+      <footer class="message__foot">
+        <span class="likes"></span>
+        <span class="comments"></span>
+      </footer>
+    </article>
+  </template>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
